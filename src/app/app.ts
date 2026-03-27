@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CoursesPageComponent } from './courses.page';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
+  imports: [CoursesPageComponent],
+  template: '<app-courses-page></app-courses-page>',
   styleUrl: './app.css'
 })
 export class App {
