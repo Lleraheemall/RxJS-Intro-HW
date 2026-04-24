@@ -1,0 +1,68 @@
+<div class="courses-container">
+  <div class="search-section">
+    <h1>Керування курсами</h1>
+    <div class="search-box">
+      <input
+        type="text"
+        [formControl]="searchControl"
+        placeholder="Пошук курсів за назвою..."
+        class="search-input"
+      />
+      <span class="search-icon">🔍</span>
+    </div>
+    <label>
+      Категорія
+      <select [formControl]="categoryControl">
+        <option value="">Усі категорії</option>
+        <option *ngFor="let category of categories$ | async" [value]="category">{{ category }}</option>
+      </select>
+    </label>
+  </div>
+
+  <section class="add-section">
+    <h2>Новий курс</h2>
+    <form class="add-form" [formGroup]="addForm" (ngSubmit)="onAdd()">
+      <label>
+        Назва
+        <input type="text" formControlName="title" placeholder="Назва курсу" />
+      </label>
+      <label>
+        Категорія
+        <input type="text" formControlName="category" placeholder="Категорія" />
+      </label>
+      <label>
+        Тривалість (год.)
+        <input type="number" formControlName="duration" min="1" />
+      </label>
+      <button type="submit" class="btn-add" [disabled]="addForm.invalid">Додати курс</button>
+    </form>
+  </section>
+
+  <div class="courses-list" *ngIf="courses$ | async as courses">
+    <div *ngIf="courses.length === 0" class="no-results">
+      <p>Курсів не знайдено</p>
+    </div>
+
+    <div *ngIf="courses.length > 0" class="course-grid">
+      <div *ngFor="let course of courses" class="course-card">
+        <div class="course-header">
+          <h3>{{ course.title }}</h3>
+          <span class="course-id">#{{ course.id }}</span>
+        </div>
+
+        <div class="course-body">
+          <p class="course-category"><strong>Категорія:</strong> {{ course.category }}</p>
+          <p class="course-duration"><strong>Тривалість:</strong> {{ course.duration }} годин</p>
+        </div>
+
+        <div class="course-footer">
+          <button type="button" class="btn-delete" (click)="onRemove(course.id)">Видалити</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-info">
+      <p>Знайдено {{ courses.length }} курс(ів)</p>
+    </div>
+  </div>
+</div>
